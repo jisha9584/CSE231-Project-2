@@ -1,160 +1,63 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+###########################################################
+#  Computer Project #2
+#
+#  Algorithm
+#    introduce the company (print statements)
+#    prompt for days, initial odometer, and final odometer
+#    ask for A/B
+#    make sure that the customer code is capitalized
+#    input the customer code
+#       do the calculations for BD, D, W
+#    print customer summary
+###########################################################
 
-# C extensions
-*.so
+import math
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+print("\nWelcome to Horizons car rentals. \
+\n\nAt the prompts, please enter the following: \
+\n\tCustomer\'s classification code (a character: BD, D, W) \
+\n\tNumber of days the vehicle was rented (int)\
+\n\tOdometer reading at the start of the rental period (int)\
+\n\tOdometer reading at the end of the rental period (int)")
+ 
+prompt_str = input('''\nWould you like to continue (A/B)? \n''')
+while(not(prompt_str=='B')):
+    code=''
+    while(not(code=='BD' or code=='D' or code=='W')): #upper case 
+        code=input ("\nCustomer code (BD, D, W): \n")
+        if(not (code=='BD' or code=='D' or code=='W')):
+            print("\n\t*** Invalid customer code. Try again. ***")
+    days_int = int(input("\nNumber of days: \n"))
+    initial_odo_int= int(input("Odometer reading at the start: \n"))
+    final_odo_int = int(input("Odometer reading at the end:   \n"))   
+    if(final_odo_int<initial_odo_int):
+        miles_float=((final_odo_int-initial_odo_int+1000000)/10)
+    else:
+        miles_float= ((final_odo_int-initial_odo_int)/10)
+    if(code=='BD'): #code of BD
+        charge_float=40.00*days_int+0.25*miles_float
+    elif(code=='D'): #code of D
+        if((miles_float/days_int)<=100):
+            charge_float=60.00*days_int
+        else:
+            charge_float=(60.00*days_int)+(0.25*(miles_float-(100*days_int)))
+    else: #code of W
+        weeks_int=math.ceil(days_int/7)
+        if ((miles_float/weeks_int)<900):
+            charge_float=190.00*weeks_int
+        elif ((miles_float/weeks_int)<1500):
+            charge_float=190.00*weeks_int+100.00*weeks_int
+        else:
+            charge_float=190.00*weeks_int+200.00*weeks_int+\
+            (miles_float-1500*weeks_int)*0.25
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+    print("\nCustomer summary:")
+    print("\tclassification code:",code)
+    print("\trental period (days):",days_int)
+    print("\todometer reading at start:",initial_odo_int)
+    print("\todometer reading at end:  ",final_odo_int)
+    print("\tnumber of miles driven: ",miles_float)
+    print("\tamount due: $",charge_float)
+    prompt_str = input('''\nWould you like to continue (A/B)? \n''')
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
-
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#pdm.lock
-#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
-#   in version control.
-#   https://pdm.fming.dev/#use-with-ide
-.pdm.toml
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+print("Thank you for your loyalty.")
